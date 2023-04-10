@@ -9,5 +9,4 @@ const app = createApp(App);
 
 app.use(pinia);
 app.use(globalPlugins);
-
 app.mount('#app');
