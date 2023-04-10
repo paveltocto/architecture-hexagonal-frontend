@@ -15,6 +15,6 @@ export default class CreateEmployeeUseCase {
 
     const employee = new Employee(name, new Email(email));
 
-    this.employeeRepository.save(employee);
+    return this.employeeRepository.save(employee);
   }
 }

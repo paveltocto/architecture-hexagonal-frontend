@@ -1,20 +1,43 @@
 <script lang="ts" setup>
-import { container } from '@/container';
+import { useEmployeeStore } from '@/ui/store/useEmployeeStore';
+import { reactive } from 'vue';
 
-container.createEmployeeUseCase.execute({
-  name: 'Pepe Lucho',
-  email: 'pepelucho@gmail.com',
+const form = reactive({
+  name: '',
+  email: '',
 });
-container.createEmployeeUseCase.execute({
-  name: 'Pepe Lucho 2',
-  email: 'pepelucho2@gmail.com',
-});
+const employeeStore = useEmployeeStore();
+const onSubmitEmployee = (e: Event) => {
+  e.preventDefault();
 
-console.log(container.getAllEmployeesUseCase.execute());
+  employeeStore.save(form.name, form.email);
+};
 </script>
 
 <template>
-  <div></div>
+  <form @submit="onSubmitEmployee">
+    <div class="mb-3">
+      <label class="form-label" for="txtNameEmployee">Name</label>
+      <input id="txtNameEmployee" v-model="form.name" class="form-control" />
+    </div>
+    <div class="mb-3">
+      <label class="form-label" for="txtEmailEmployee">Email</label>
+      <input
+        id="txtEmailEmployee"
+        v-model="form.email"
+        class="form-control"
+        type="email"
+      />
+    </div>
+    <button>Submit</button>
+  </form>
+  <br />
+  <ul>
+    <li v-for="employee in employeeStore.getAll" :key="employee.id">
+      <span>{{ employee.name }}</span>
+      <span>{{ employee.email.value }}</span>
+    </li>
+  </ul>
 </template>
 
 <style scoped></style>
